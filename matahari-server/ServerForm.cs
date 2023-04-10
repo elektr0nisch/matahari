@@ -6,10 +6,10 @@ namespace Matahari
         {
             InitializeComponent();
 
-            MatahariServer.RegisterUpdateListener(() =>
+            MatahariServer.AddUpdateListener(this, () =>
             {
                 // Form updates need to be performed from the UI thread
-                this.Invoke(() => HandleUpdate());
+                Invoke(() => HandleUpdate());
             });
         }
 
@@ -32,18 +32,28 @@ namespace Matahari
         private void UpdateClientInformation()
         {
             MatahariClient client = (MatahariClient)clientList.SelectedItem;
-            if (client == null)
+            if (client != null)
             {
-                machineName.Text = string.Empty;
-                screenshot.Image = null;
-                return;
+                HeartbeatPacket? heartbeat = client.LastHeartbeat;
+                if (heartbeat != null)
+                {
+                    machineName.Text = client.MachineName;
+                    screenshot.Image = heartbeat.Screenshot;
+                    connectedSince.Text = client.ConnectedSince.ToString("dd.MM.yyyy HH:mm:ss");
+                    lastHeartbeat.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
+                    cpuUsage.Text = heartbeat.CpuUsage + "%";
+                    memoryAvailable.Text = heartbeat.MemoryAvailable + "MB";
+                    return;
+                }
             }
 
-            machineName.Text = client.MachineName;
-            if (client.Screenshot != null)
-            {
-                screenshot.Image = client.Screenshot;
-            }
+            // Clear information
+            machineName.Text = string.Empty;
+            screenshot.Image = null;
+            connectedSince.Text = string.Empty;
+            lastHeartbeat.Text = string.Empty;
+            cpuUsage.Text = string.Empty;
+            memoryAvailable.Text = string.Empty;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -109,6 +119,22 @@ namespace Matahari
         private void CloseButtonClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void InfoMenuClicked(object sender, EventArgs e)
+        {
+            AboutForm form = new();
+            form.ShowDialog();
+        }
+
+        private void ScreenshotClicked(object sender, EventArgs e)
+        {
+            MatahariClient client = (MatahariClient)clientList.SelectedItem;
+            if (client != null)
+            {
+                ScreenshotForm form = new(client);
+                form.ShowDialog();
+            }
         }
     }
 }

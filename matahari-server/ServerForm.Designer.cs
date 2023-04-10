@@ -31,6 +31,8 @@
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label7;
+            System.Windows.Forms.Label label8;
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.clientList = new System.Windows.Forms.ListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -39,19 +41,23 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.netzwerkeinstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.qualitätseinstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.screenshot = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.shutdown = new System.Windows.Forms.Button();
-            this.restart = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.machineName = new System.Windows.Forms.Label();
             this.connectedSince = new System.Windows.Forms.Label();
             this.lastHeartbeat = new System.Windows.Forms.Label();
+            this.cpuUsage = new System.Windows.Forms.Label();
+            this.memoryAvailable = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,7 +65,6 @@
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.screenshot)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,6 +105,30 @@
             label2.Text = "Letzte \r\nAktualisierung:";
             label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            label7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            label7.Location = new System.Drawing.Point(5, 98);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(94, 30);
+            label7.TabIndex = 7;
+            label7.Text = "CPU:";
+            label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            label8.Location = new System.Drawing.Point(5, 130);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(94, 30);
+            label8.TabIndex = 9;
+            label8.Text = "RAM:";
+            label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -114,7 +143,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
-            this.splitContainer1.Size = new System.Drawing.Size(1399, 474);
+            this.splitContainer1.Size = new System.Drawing.Size(1399, 583);
             this.splitContainer1.SplitterDistance = 246;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -126,7 +155,7 @@
             this.clientList.ItemHeight = 15;
             this.clientList.Location = new System.Drawing.Point(0, 24);
             this.clientList.Name = "clientList";
-            this.clientList.Size = new System.Drawing.Size(246, 450);
+            this.clientList.Size = new System.Drawing.Size(246, 559);
             this.clientList.TabIndex = 0;
             this.clientList.SelectedIndexChanged += new System.EventHandler(this.SelectedClientChanged);
             // 
@@ -134,7 +163,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2,
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.hilfeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(246, 24);
@@ -147,12 +177,13 @@
             this.closeButton});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(46, 20);
-            this.toolStripMenuItem2.Text = "Datei";
+            this.toolStripMenuItem2.Text = "&Datei";
             // 
             // closeButton
             // 
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(180, 22);
+            this.closeButton.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.closeButton.Size = new System.Drawing.Size(162, 22);
             this.closeButton.Text = "Beenden";
             this.closeButton.Click += new System.EventHandler(this.CloseButtonClicked);
             // 
@@ -163,19 +194,37 @@
             this.qualitätseinstellungenToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(90, 20);
-            this.toolStripMenuItem1.Text = "Einstellungen";
+            this.toolStripMenuItem1.Text = "&Einstellungen";
             // 
             // netzwerkeinstellungenToolStripMenuItem
             // 
             this.netzwerkeinstellungenToolStripMenuItem.Name = "netzwerkeinstellungenToolStripMenuItem";
-            this.netzwerkeinstellungenToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.netzwerkeinstellungenToolStripMenuItem.Text = "Netzwerkeinstellungen";
+            this.netzwerkeinstellungenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.netzwerkeinstellungenToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.netzwerkeinstellungenToolStripMenuItem.Text = "&Clienteinstellungen";
             // 
             // qualitätseinstellungenToolStripMenuItem
             // 
             this.qualitätseinstellungenToolStripMenuItem.Name = "qualitätseinstellungenToolStripMenuItem";
-            this.qualitätseinstellungenToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.qualitätseinstellungenToolStripMenuItem.Text = "Qualitätseinstellungen";
+            this.qualitätseinstellungenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.qualitätseinstellungenToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.qualitätseinstellungenToolStripMenuItem.Text = "&Servereinstellungen";
+            // 
+            // hilfeToolStripMenuItem
+            // 
+            this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoToolStripMenuItem});
+            this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
+            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.hilfeToolStripMenuItem.Text = "&Hilfe";
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.infoToolStripMenuItem.Text = "Info ...";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoMenuClicked);
             // 
             // tableLayoutPanel1
             // 
@@ -193,7 +242,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1149, 474);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1149, 583);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -202,7 +251,7 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(4, 364);
+            this.label5.Location = new System.Drawing.Point(4, 473);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(223, 109);
             this.label5.TabIndex = 7;
@@ -215,48 +264,30 @@
             this.screenshot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.screenshot.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.screenshot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.screenshot.ErrorImage = null;
+            this.screenshot.InitialImage = null;
             this.screenshot.Location = new System.Drawing.Point(234, 4);
             this.screenshot.Name = "screenshot";
-            this.screenshot.Size = new System.Drawing.Size(911, 356);
+            this.screenshot.Size = new System.Drawing.Size(911, 465);
             this.screenshot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.screenshot.TabIndex = 4;
             this.screenshot.TabStop = false;
+            this.screenshot.Click += new System.EventHandler(this.ScreenshotClicked);
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.shutdown, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.restart, 1, 0);
+            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(234, 367);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(234, 476);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(911, 103);
             this.tableLayoutPanel2.TabIndex = 8;
-            // 
-            // shutdown
-            // 
-            this.shutdown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.shutdown.Location = new System.Drawing.Point(3, 3);
-            this.shutdown.Name = "shutdown";
-            this.shutdown.Size = new System.Drawing.Size(347, 97);
-            this.shutdown.TabIndex = 0;
-            this.shutdown.Text = "Herunterfahren";
-            this.shutdown.UseVisualStyleBackColor = true;
-            this.shutdown.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // restart
-            // 
-            this.restart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.restart.Location = new System.Drawing.Point(356, 3);
-            this.restart.Name = "restart";
-            this.restart.Size = new System.Drawing.Size(1141, 97);
-            this.restart.TabIndex = 1;
-            this.restart.Text = "Neustart";
-            this.restart.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
             // 
@@ -264,21 +295,27 @@
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(label8, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(label7, 0, 3);
             this.tableLayoutPanel3.Controls.Add(label2, 0, 2);
             this.tableLayoutPanel3.Controls.Add(label1, 0, 1);
             this.tableLayoutPanel3.Controls.Add(label6, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.machineName, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.connectedSince, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.lastHeartbeat, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.cpuUsage, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.memoryAvailable, 1, 4);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 4;
+            this.tableLayoutPanel3.RowCount = 6;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(223, 356);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(223, 465);
             this.tableLayoutPanel3.TabIndex = 9;
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint_1);
             // 
@@ -312,11 +349,31 @@
             this.lastHeartbeat.TabIndex = 6;
             this.lastHeartbeat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // cpuUsage
+            // 
+            this.cpuUsage.AutoSize = true;
+            this.cpuUsage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cpuUsage.Location = new System.Drawing.Point(107, 98);
+            this.cpuUsage.Name = "cpuUsage";
+            this.cpuUsage.Size = new System.Drawing.Size(111, 30);
+            this.cpuUsage.TabIndex = 8;
+            this.cpuUsage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // memoryAvailable
+            // 
+            this.memoryAvailable.AutoSize = true;
+            this.memoryAvailable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.memoryAvailable.Location = new System.Drawing.Point(107, 130);
+            this.memoryAvailable.Name = "memoryAvailable";
+            this.memoryAvailable.Size = new System.Drawing.Size(111, 30);
+            this.memoryAvailable.TabIndex = 10;
+            this.memoryAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1399, 474);
+            this.ClientSize = new System.Drawing.Size(1399, 583);
             this.Controls.Add(this.splitContainer1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ServerForm";
@@ -331,7 +388,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.screenshot)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
@@ -356,11 +412,13 @@
         private Label label1;
         private Label label5;
         private TableLayoutPanel tableLayoutPanel2;
-        private Button shutdown;
-        private Button restart;
         private TableLayoutPanel tableLayoutPanel3;
         private Label machineName;
         private Label connectedSince;
         private Label lastHeartbeat;
+        private ToolStripMenuItem hilfeToolStripMenuItem;
+        private ToolStripMenuItem infoToolStripMenuItem;
+        private Label cpuUsage;
+        private Label memoryAvailable;
     }
 }

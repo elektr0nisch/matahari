@@ -5,39 +5,71 @@ namespace Matahari
     public class MatahariClient
     {
         public Socket Socket { get; }
+
+        public NetworkStream Stream { get; }
+
         public string MachineName { get; private set; }
-        public Bitmap? Screenshot { get; private set; }
+
+        public HeartbeatPacket? LastHeartbeat { get; private set; }
+
+        public DateTime ConnectedSince { get; }
+
+        public bool Connected { get; private set; }
+
+        private readonly Queue<Packet> packetQueue = new Queue<Packet>();
 
         public MatahariClient(Socket socket)
         {
-            this.Socket = socket;
-            this.MachineName = "n/a";
+            Socket = socket;
+            Stream = new NetworkStream(socket, true);
+            MachineName = "n/a";
+            ConnectedSince = DateTime.Now;
+            Connected = true;
 
             Task.Run(() => StartListening());
+            Task.Run(() => StartSendQueue());
         }
 
         private void StartListening()
         {
-            NetworkStream networkStream = new(Socket, true);
-
+            // Read incoming packets while connected
             while (Socket.Connected)
             {
                 try
                 {
-                    Packet packet = PacketUtility.ReadPacket(networkStream);
+                    Packet packet = PacketUtility.ReadPacket(Stream);
                     if (packet != null)
                     {
                         HandlePacket(packet);
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                }
+                catch { }
             }
 
             // Remove from clients on connection loss
             MatahariServer.RemoveClient(this);
+            Connected = false;
+        }
+
+        private void StartSendQueue()
+        {
+            while (Socket.Connected)
+            {
+                if (packetQueue.Count > 0)
+                {
+                    try
+                    {
+                        PacketUtility.WritePacket(Stream, packetQueue.Dequeue());
+                        Thread.Sleep(100);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        public void SendPacket(Packet packet)
+        {
+            packetQueue.Enqueue(packet);
         }
 
         private void HandlePacket(Packet packet)
@@ -45,12 +77,10 @@ namespace Matahari
             if (packet is LoginPacket loginPacket)
             {
                 MachineName = loginPacket.MachineName;
-                MatahariServer.CallUpdateListeners();
             }
             else if (packet is HeartbeatPacket heartbeatPacket)
             {
-                Screenshot = heartbeatPacket.Screenshot;
-                MatahariServer.CallUpdateListeners();
+                LastHeartbeat = heartbeatPacket;
             }
         }
     }

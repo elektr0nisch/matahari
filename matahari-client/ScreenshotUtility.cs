@@ -25,7 +25,7 @@ namespace Matahari
             return bitmap;
         }
 
-        private Size CalculateFullScreenSize()
+        public Size CalculateFullScreenSize()
         {
             int width = 0;
             int height = 0;

@@ -8,13 +8,19 @@ namespace Matahari
         private static Socket? serverSocket;
 
         private static readonly List<MatahariClient> clients = new();
-        private static readonly List<Action> listeners = new();
+        private static readonly Dictionary<Form, Action> listeners = new();
 
         [STAThread]
         static void Main()
         {
             // Start the server socket
             Task.Run(() => RunServer());
+
+            // Start UI update timer
+            System.Timers.Timer timer = new();
+            timer.Elapsed += (obj, args) => CallUpdateListeners();
+            timer.Interval = 1000;
+            timer.Start();
 
             ApplicationConfiguration.Initialize();
             Application.Run(new ServerForm());
@@ -47,13 +53,11 @@ namespace Matahari
         public static void AddClient(MatahariClient client)
         {
             clients.Add(client);
-            CallUpdateListeners();
         }
 
         public static void RemoveClient(MatahariClient client)
         {
             clients.Remove(client);
-            CallUpdateListeners();
         }
 
         public static List<MatahariClient> GetClients()
@@ -61,14 +65,22 @@ namespace Matahari
             return clients;
         }
 
-        public static void RegisterUpdateListener(Action callback)
+        public static void AddUpdateListener(Form form, Action callback)
         {
-            listeners.Add(callback);
+            listeners.Add(form, callback);
         }
 
-        public static void CallUpdateListeners()
+        public static void RemoveUpdateListener(Form form)
         {
-            listeners.ForEach(callback => callback());
+            listeners.Remove(form);
+        }
+
+        private static void CallUpdateListeners()
+        {
+            foreach (var listener in listeners.Values)
+            {
+                listener();
+            }
         }
     }
 }
